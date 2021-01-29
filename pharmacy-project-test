@@ -1,0 +1,618 @@
+from tkinter import *
+import tkinter.messagebox
+from tkinter import ttk
+import random
+import time;
+import datetime
+
+def main():
+    root = Tk()
+    app = Window1(root)
+    root.mainloop()
+
+class Window1:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Pharmacy Management Systems")
+        self.master.geometry("1350x750+0+0")
+        self.frame = tkinter.Frame(self.master)
+        self.frame.pack()
+        self.Username = tkinter.StringVar();
+        self.Password = tkinter.StringVar();
+
+
+        #Label Title==========================================================================
+        self.LabelTitle = tkinter.Label(self.frame, text="Patients Registration Systems", 
+        font=('arial', 50, 'bold'),bd=20)
+        self.LabelTitle.grid(row = 0, column = 0, columnspan=2, pady=40) 
+
+        #Login Frame==========================================================================
+        self.Loginframe1 = tkinter.Frame(self.frame, width=1010, height=300, relief='ridge',bd=20)
+        self.Loginframe1.grid(row = 1, column = 0) 
+
+        self.Loginframe2 = tkinter.Frame(self.frame, width=1000, height=100, relief='ridge',bd=20)
+        self.Loginframe2.grid(row = 2, column = 0) 
+ 
+        self.Loginframe3 = tkinter.Frame(self.frame, width=1000, height=200, relief='ridge',bd=20)
+        self.Loginframe3.grid(row = 3, column = 0, pady=2) 
+        
+        self.btnLogin = tkinter.Button(self.Loginframe2, text="Login", width=17, font=('arial', 20,'bold'), 
+        command=self.Login_System)
+        self.btnLogin.grid(row = 0, column=0)
+
+        #Button Reset==========================================================================
+        self.btnReset = tkinter.Button(self.Loginframe2, text="Reset", width=17, font=('arial', 20,'bold'), 
+        command=self.Reset)
+        self.btnReset.grid(row = 0, column=1)
+
+        #Button Exit==========================================================================
+        self.btnExit = tkinter.Button(self.Loginframe2, text="Exit", width=17, font=('arial', 20,'bold'), 
+        command=self.Exit)
+        self.btnExit.grid(row = 0, column=2)
+
+        #Input Username==========================================================================
+        self.lblUsername = tkinter.Label(self.Loginframe1, text="Username",  font=('arial', 30, 'bold'),bd=22)
+        self.lblUsername.grid(row = 0, column = 0) 
+        self.txtUsername = tkinter.Entry(self.Loginframe1, font=('arial', 30, 'bold'),bd=20, textvariable=self.Username)
+        self.txtUsername.grid(row = 0, column = 1) 
+
+        self.lblPassword = tkinter.Label(self.Loginframe1, text="Password", font=('arial', 30, 'bold'),bd=22)
+        self.lblPassword.grid(row = 2, column = 0) 
+        self.txtPassword = tkinter.Entry(self.Loginframe1, font=('arial', 30, 'bold'),bd=20, textvariable=self.Password)
+        self.txtPassword.grid(row = 2, column = 1, padx=85) 
+        #Input Username==========================================================================
+
+        #Button Registration==========================================================================
+        self.btnRegistration = tkinter.Button(self.Loginframe3, text="Patients Registration Systems", 
+        state=tkinter.DISABLED, command=self.Registration_window, font=('arial', 20,'bold'), )
+        self.btnRegistration.grid(row = 0, column=0)
+ 
+        #Button Hospital==========================================================================
+        self.btnHospital = tkinter.Button(self.Loginframe3, text="Hospital Management Systems",
+        state=tkinter.DISABLED, command=self.Hospital_window, font=('arial', 20,'bold'), )
+        self.btnHospital.grid(row = 0, column=1, pady=8, padx=22)
+
+    #DEF LOGIN==========================================================================
+    def Login_System(self):
+        user = (self.Username.get())
+        pas = (self.Password.get())
+
+        if (user == str(1234)) and (pas == str(1234)):
+            self.btnRegistration.config(state = tkinter.NORMAL)
+            self.btnHospital.config(state = tkinter.NORMAL)
+        else:
+            tkinter.messagebox.askyesno("Pharmacy Management System", "You have enter an invalid login details")
+
+    def Reset(self):
+        self.btnRegistration.config(state = tkinter.DISABLED)
+        self.btnHospital.config(state = tkinter.DISABLED)
+        self.Username.set("")
+        self.Password.set("")
+        self.txtUsername.focus()
+    def Exit(self):
+        self.Exit = tkinter.messagebox.askyesno("Pharmacy Management System", "Confirm if you want to exit")
+        if self.Exit > 0:
+            self.master.destroy()
+            return
+
+    def Registration_window(self):
+        self.newWindow = tkinter.Toplevel(self.master)
+        self.app = Window2(self.newWindow)
+    
+    def Hospital_window(self):
+        self.newWindow = tkinter.Toplevel(self.master)
+        self.app = Window3(self.newWindow)
+
+class Window2:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Patients Registration Systems")
+        self.master.geometry("1350x750+0+0")
+        self.frame = tkinter.Frame(self.master)
+        self.frame.pack()
+
+        #===============================================================================================
+        DateofOrder = tkinter.StringVar()
+        DateofOrder.set(time.strftime("%d/%m/%Y"))
+
+        var1 = tkinter.StringVar()
+        var2 = tkinter.StringVar()
+        var3 = tkinter.StringVar()
+        var4 = tkinter.StringVar()
+
+        Firstname = tkinter.StringVar()
+        Surname = tkinter.StringVar()
+        Address = tkinter.StringVar()
+        Postcode = tkinter.StringVar()
+        Telephone = tkinter.StringVar()
+        Ref = tkinter.StringVar()
+
+        Membership = tkinter.StringVar()
+        Membership.set("0")
+
+        #===============================Function Declared======================================
+        def iExit():
+            iExit = tkinter.messagebox.askyesno("Club Member Register System", "Confirm if you want to exit ")
+            if iExit > 0:
+                # root.destroy()
+                self.master.destroy()
+                return
+        
+        def Reset():
+            Firstname.set("")
+            Surname.set("")
+            Address.set("")
+            Postcode.set("")
+            Telephone.set("")
+            Ref.set("")
+            Membership.set("0")
+
+            var1.set("")
+            var2.set("")
+            var3.set("")
+            var4.set("0")
+
+            self.cboProve_of_ID.current(0)
+            self.cboType_of_Member.current(0)
+            self.cboMethod_of_Payment.current(0)
+            self.txtMembership.config(state=tkinter.DISABLED)
+            # self.btnParent.config(state=NORMAL)
+
+        def iResetRecord():
+            iResetRecord = tkinter.messagebox.askokcancel("Club Member Registration Systems", "Confirm if you want to add record")
+            if iResetRecord > 0 :
+                Reset()
+            elif iResetRecord <= 0:
+                Reset()
+                self.txtReceipt.delete("1.0", tkinter.END)
+                return
+        
+        def Ref_No():
+            x = random.randint(10903, 600873)
+            randomRef = str(x)
+            Ref.set(randomRef)
+
+        def Receipt():
+            Ref_No()
+            self.txtReceipt.insert(tkinter.END, "\t" + Ref.get() + "\t\t" + Firstname.get() + "\t\t" + Surname.get() 
+            + "\t\t" + Address.get() + "\t\t" + DateofOrder.get() + "\t\t" + Telephone.get()
+            + "\t\t" + Membership.get()+"\n")
+        
+        def Membership_Fees():
+
+            if(var4.get() == 1):
+                self.txtMembership.configure(state = tkinter.NORMAL)
+                Item1 = float(50)
+                Membership.set("$" + str(Item1))
+
+            elif(var4.get() == 0):
+                self.txtMembership.configure(state = tkinter.DISABLED)
+                Membership.set("0")
+
+        #===========================FRAME=======================================================
+
+        Mainframe = tkinter.Frame(self.frame)
+        Mainframe.grid()
+
+        TitleFrame = tkinter.Frame(Mainframe, bd=20, width=1350, padx=35, relief=tkinter.RIDGE)
+        TitleFrame.pack(side=tkinter.TOP)
+
+        self.lblTitle = tkinter.Label(TitleFrame, font=('arial',30,'bold'), text="Member Registration Systems", padx=4)
+        self.lblTitle.grid()
+
+        #===========================LOW FRAME=======================================================
+        MemberDetailsFrame = tkinter.LabelFrame(Mainframe, width=1350, height=500, bd=20,pady=5, relief=tkinter.RIDGE)
+        MemberDetailsFrame.pack(side=tkinter.BOTTOM)
+
+        FrameDetails = tkinter.LabelFrame(MemberDetailsFrame, bd=10, width=880, height=400, relief=tkinter.RIDGE)
+        FrameDetails.pack(side=tkinter.LEFT)
+
+        MembersName_F = tkinter.LabelFrame(FrameDetails, bd=10, width=350, height=400, font=('arial',12,'bold'),text="Customer Name", relief=tkinter.RIDGE)
+        MembersName_F.grid(row=0, column=0)
+
+        Receipt_ButtonFrame = tkinter.LabelFrame(MemberDetailsFrame, bd=10, width=1000, height=400, relief=tkinter.RIDGE)
+        Receipt_ButtonFrame.pack(side=tkinter.RIGHT)
+        #===============================================================================================
+        self.lblReferenceNo = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Reference No", bd=7)
+        self.lblReferenceNo.grid(row=0, column=0, sticky=W)
+        self.txtReferenceNo = tkinter.Entry(MembersName_F, font=('arial', 14, 'bold'), bd=7, textvariable=Ref,
+        state=tkinter.DISABLED, insertwidth=2)
+        self.txtReferenceNo.grid(row = 0, column=1)
+
+        self.lblFirstname = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Firstname", bd=7)
+        self.lblFirstname.grid(row=1, column=0, sticky=W)
+        self.txtFirstname = tkinter.Entry(MembersName_F, font=('arial', 14, 'bold'), bd=7, textvariable=Firstname,
+        insertwidth=2)
+        self.txtFirstname.grid(row=1, column=1)
+
+        self.lblSurname = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Surname", bd=7)
+        self.lblSurname.grid(row=2, column=0, sticky=W)
+        self.txtSurname = tkinter.Entry(MembersName_F, font=('arial', 14, 'bold'), bd=7, textvariable=Surname,
+        insertwidth=2)
+        self.txtSurname.grid(row=2, column=1)
+
+        self.lblAddress = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Address", bd=7)
+        self.lblAddress.grid(row=3, column=0, sticky=W)
+        self.txtAddress = tkinter.Entry(MembersName_F, font=('arial', 14, 'bold'), bd=7, textvariable=Address,
+        insertwidth=2)
+        self.txtAddress.grid(row=3, column=1)
+
+        self.lblPostCode = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Post Code", bd=7)
+        self.lblPostCode.grid(row=4, column=0, sticky=W)
+        self.txtPostCode = tkinter.Entry(MembersName_F, font=('arial', 14, 'bold'), bd=7, textvariable=Postcode,
+        insertwidth=2)
+        self.txtPostCode.grid(row=4, column=1)
+
+        self.lblTelephone = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Telephone", bd=7)
+        self.lblTelephone.grid(row=5, column=0, sticky=W)
+        self.txtTelephone = tkinter.Entry(MembersName_F, font=('arial', 14, 'bold'), bd=7, textvariable=Telephone,
+        insertwidth=2)
+        self.txtTelephone.grid(row=5, column=1)
+
+        self.lblDate = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Date", bd=7)
+        self.lblDate.grid(row=6, column=0, sticky=W)
+        self.txtDate = tkinter.Entry(MembersName_F, font=('arial', 14, 'bold'), bd=7, textvariable=DateofOrder,
+        insertwidth=2)
+        self.txtDate.grid(row=6, column=1)
+        #=====================================Member Information=================================================
+        self.lblProve_of_ID = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Prove of ID", bd=7)
+        self.lblProve_of_ID.grid(row=7, column=0, sticky=tkinter.W)
+
+        self.cboProve_of_ID = ttk.Combobox(MembersName_F, textvariable=var1, state='readonly',
+        font=('arial', 14, 'bold'), width=19)
+
+        self.cboProve_of_ID['value'] = ('', 'Pilot Lience', 'Driving Lience', 'Passport', 'Student ID')
+        self.cboProve_of_ID.current(0)
+        self.cboProve_of_ID.grid(row=7, column=1)
+
+        self.lblType_of_member = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Type of Member",bd=7)
+        self.lblType_of_member.grid(row=8, column=0, sticky=tkinter.W)
+
+        self.lblType_of_member = ttk.Combobox(MembersName_F, textvariable=var2, state='readonly',
+        font=('arial', 14, 'bold'), width=19)
+        self.lblType_of_member['value'] = ('', 'Full Member', 'Annual Membership', 'Pay as You Go', 'Honorary me')
+        self.lblType_of_member.current(0)
+        self.lblType_of_member.grid(row=8, column=1)
+
+        self.lblMethod_of_payment = tkinter.Label(MembersName_F, font=('arial', 14, 'bold'), text="Method of Payment",bd=7)
+        self.lblMethod_of_payment.grid(row=9, column=0, sticky=tkinter.W)
+
+        self.lblMethod_of_payment = ttk.Combobox(MembersName_F, textvariable=var3, state='readonly',
+        font=('arial', 14, 'bold'), width=19)
+        self.lblMethod_of_payment['value'] = ('', 'Visa Card', 'master Card', 'Debit Card', 'Cash')
+        self.lblMethod_of_payment.current(0)
+        self.lblMethod_of_payment.grid(row=9, column=1)
+        #======================================================CHECK BUTTON======================================================
+        self.chkmembership = tkinter.Checkbutton(MembersName_F, text="Patient Fees", variable=var4, onvalue=1,
+        offvalue=0,font=('arial',16,'bold'), command=Membership_Fees).grid(row=10,column=0, sticky=tkinter.W)
+
+        self.txtMembership = tkinter.Entry(MembersName_F, font=('arial',16,'bold'), textvariable=Membership, bd=7,
+        insertwidth=2,state=tkinter.DISABLED, justify=tkinter.RIGHT)
+        self.txtMembership.grid(row=10, column=1)
+        #======================================================RECEIPT======================================================
+        self.lblLabel = tkinter.Label(Receipt_ButtonFrame, font=('arial',10,'bold'), pady=10,
+        text="Patient Ref\t Firstname\t Surname\t Address\t\t Date Reg.\t Telephone\t Patient Paid", bd=7)
+        self.lblLabel.grid(row=0, column=0, columnspan=4)
+
+        self.txtReceipt = tkinter.Text(Receipt_ButtonFrame, width=112, height=22, font=('arial',16, 'bold'))
+        self.txtReceipt.grid(row=1, column=0, columnspan=4)
+        #======================================================BUTTON======================================================
+        self.btnReceipt = tkinter.Button(Receipt_ButtonFrame, padx=18, bd=7, font=('arial', 16,'bold'), width=13,
+        text="Receipt", command=Receipt).grid(row=2, column=0)
+
+        self.btnReset = tkinter.Button(Receipt_ButtonFrame, padx=10, bd=7, font=('arial',16,'bold'), width=13,
+        text="Reset", command=iResetRecord).grid(row=2, column=1)
+
+        self.btnExit = tkinter.Button(Receipt_ButtonFrame, padx=10, bd=7, font=('arial',16,'bold'), width=13,
+        text="Exit", command=iExit).grid(row=2, column=2)
+
+        #===============================================================================================
+        self.quitButton = tkinter.Button(self.frame, text="Quit", width=25, command=self.iExit)
+        self.quitButton.grid(row=3, column=0)
+
+    def close_windows(self):
+        self.master.destroy()
+
+    def iExit(self):
+        self.iExit = tkinter.messagebox.askyesno("Patient Registration System", "Confirm if you want to exit")
+        if self.iExit > 0:
+            self.master.destroy()
+        else:
+            self.newWindow = tkinter.Toplevel(self.master)
+            self.app = Window2(self.newWindow)
+            return
+
+class Window3:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Hospital Management Systems")
+        self.master.geometry("1350x750+0+0")
+        self.frame = tkinter.Frame(self.master)
+        self.frame.pack()
+        #===============================================================================================
+
+        cmbNameTablets = tkinter.StringVar()
+        Ref = tkinter.StringVar()
+        Dose = tkinter.StringVar()
+        NumberTablets = tkinter.StringVar()
+        Lot = tkinter.StringVar()
+        IssuedDate = tkinter.StringVar()
+        ExpDate = tkinter.StringVar()
+        DailyDose = tkinter.StringVar()
+        PossibleSideEffects = tkinter.StringVar()
+        FurtherInformation = tkinter.StringVar()
+        StorageAdvice = tkinter.StringVar()
+        DrivingUsingMachines = tkinter.StringVar()
+        HowtoUseMedication = tkinter.StringVar()
+        PatientID = tkinter.StringVar()
+        NHSNumber = tkinter.StringVar()
+        PatientName = tkinter.StringVar()
+        DateofBirth = tkinter.StringVar()
+        PatientAddress = tkinter.StringVar()
+        Prescription = tkinter.StringVar()
+
+        #===========================Function mdeclaration===================================
+        def iExit():
+            iExit = tkinter.messagebox.askyesno("Hospital Management System", "Confirm if you want to exit")
+            if iExit > 0:
+                self.master.destroy()
+            return
+        
+        def iPrescription():
+            self.txtPrescription.insert(tkinter.END, 'Name of Tablets: \t\t\t\t' + cmbNameTablets.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Reference No: \t\t\t\t' + Ref.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Dose: \t\t\t\t' + Dose.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Number of Tablets: \t\t\t\t' + NumberTablets.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Lot: \t\t\t\t' + Lot.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Issued Date: \t\t\t\t' + IssuedDate.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Exp. Date: \t\t\t\t' + ExpDate.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Daily Dose: \t\t\t\t' + DailyDose.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Possible Side Effexts: \t\t\t\t' + PossibleSideEffects.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Further Information: \t\t\t\t' + FurtherInformation.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Storage Advice: \t\t\t\t' + StorageAdvice.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Driving or Using Machines: \t\t\t\t' + DrivingUsingMachines.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'How to Use Medication : \t\t\t\t' + HowtoUseMedication.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Patient ID : \t\t\t\t' + PatientID.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'NHS Number : \t\t\t\t' + NHSNumber.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Patient Name : \t\t\t\t' + PatientName.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Date of Birth : \t\t\t\t' + DateofBirth.get() +"\n")
+            self.txtPrescription.insert(tkinter.END, 'Patient Address : \t\t\t\t' + PatientAddress.get() +"\n")
+            return
+
+        def iPrescriptionData():
+            self.txtFrameDetail.insert(tkinter.END, cmbNameTablets.get() + "\t\t" + Ref.get() + "\t" + Dose.get() + "\t\t"+
+            NumberTablets.get() + "\t" + Lot.get() + "\t" + IssuedDate.get() + "\t\t" + ExpDate.get() + "\t" +
+            DailyDose.get() + "\t\t" + StorageAdvice.get() + "\t" + NHSNumber.get() + "\t\t" + PatientName.get() + 
+            "\t" + DateofBirth.get() + "\t" + PatientAddress.get() + "\n")
+            return
+        
+        def iDelete():
+            cmbNameTablets.set("")
+            self.cboNameTablet.current(0)
+            Ref.set("")
+            Dose.set("")
+            NumberTablets.set("")
+            Lot.set("")
+            IssuedDate.set("")
+            ExpDate.set("")
+            DailyDose.set("")
+            PossibleSideEffects.set("")
+            FurtherInformation.set("")
+            StorageAdvice.set("")
+            DrivingUsingMachines.set("")
+            HowtoUseMedication.set("")
+            PatientID.set("")
+            NHSNumber.set("")
+            PatientName.set("")
+            DateofBirth.set("")
+            PatientAddress.set("")
+            # Prescription.set("")
+            self.txtPrescription.delete("1.0", tkinter.END)
+            self.txtFrameDetail.delete("1.0", tkinter.END)
+
+            return
+        def iReset():
+            cmbNameTablets.set("")
+            self.cboNameTablet.current(0)
+            Ref.set("")
+            Dose.set("")
+            NumberTablets.set("")
+            Lot.set("")
+            IssuedDate.set("")
+            ExpDate.set("")
+            DailyDose.set("")
+            PossibleSideEffects.set("")
+            FurtherInformation.set("")
+            StorageAdvice.set("")
+            DrivingUsingMachines.set("")
+            HowtoUseMedication.set("")
+            PatientID.set("")
+            NHSNumber.set("")
+            PatientName.set("")
+            DateofBirth.set("")
+            PatientAddress.set("")
+            # Prescription.set("")
+            self.txtPrescription.delete("1.0", tkinter.END)
+            # self.txtFrameDetail.delete("1.0", tkinter.END)
+
+            return
+        
+        #====================================Frame===========================================================
+        MainFrame = tkinter.Frame(self.frame)
+        MainFrame.grid()
+
+        TitleFrame = tkinter.Frame(MainFrame, bd=20, width=1350, padx=20, relief=tkinter.RIDGE)
+        TitleFrame.pack(side=tkinter.TOP)
+
+        self.lblTitle = tkinter.Label(TitleFrame, width=39, font=('arial',40,'bold'), text="\tHospital Management Systems\t", padx=8)
+        self.lblTitle.grid()
+
+        FrameDetail = tkinter.Frame(MainFrame, bd=20, width=1350, height=100, padx=20, relief=tkinter.RIDGE)
+        FrameDetail.pack(side = tkinter.BOTTOM)
+
+        ButtonFrame = tkinter.Frame(MainFrame, bd=20, width=1350, height=50, padx=20, relief=tkinter.RIDGE)
+        ButtonFrame.pack(side=tkinter.BOTTOM)
+
+        DataFrame = tkinter.Frame(MainFrame, bd=20, width=1350, height=400, padx=20, relief=tkinter.RIDGE)
+        DataFrame.pack(side=tkinter.BOTTOM)
+
+        DataFrameLEFT = tkinter.LabelFrame(DataFrame, bd=10, width=800, height=300, padx=20, relief=tkinter.RIDGE,
+        font=('arial',12,'bold'), text="Patient Information")
+        DataFrameLEFT.pack(side=tkinter.LEFT)
+
+        DataFrameRIGHT = tkinter.LabelFrame(DataFrame, bd=10, width=450, height=300, padx=20, relief=tkinter.RIDGE,
+        font=('arial',12,'bold'), text="Prescription")
+        DataFrameRIGHT.pack(side=tkinter.RIGHT)
+
+        #========================================DataFrameLEFT==================================================
+        
+        self.lblNameTablet = tkinter.Label(DataFrameLEFT, font=('arial',12, 'bold'), text="Name of Tablets", padx=2, pady=2)
+        self.lblNameTablet.grid(row=0, column=0, sticky=tkinter.W)
+
+        self.cboNameTablet=ttk.Combobox(DataFrameLEFT,textvariable=cmbNameTablets, state='readonly',
+        font=('arial',12,'bold'), width=23)
+
+        self.cboNameTablet['value'] = ('','Ibuprofen','Paracetamol','Amlodipine')
+        self.cboNameTablet.current(0)
+        self.cboNameTablet.grid(row=0, column=1)
+
+        self.lblFurtherInfo = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Further Information",
+        padx=2, pady=2)
+        self.lblFurtherInfo.grid(row=0, column=2, sticky=tkinter.W)
+        self.txtFurtherInfo = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=FurtherInformation, width=25)
+        self.txtFurtherInfo.grid(row=0, column=3)
+
+        self.lblRef = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Reference No:",
+        padx=2, pady=2)
+        self.lblRef.grid(row=1, column=0, sticky=tkinter.W)
+        self.txtRef = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=Ref, width=25)
+        self.txtRef.grid(row=1, column=1)
+
+        self.lblStorage = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Storage Advice:",
+        padx=2, pady=2)
+        self.lblStorage.grid(row=1, column=2, sticky=tkinter.W)
+        self.txtStorage = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=StorageAdvice, width=25)
+        self.txtStorage.grid(row=1, column=3)
+        
+        self.lblDose = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Dose:",
+        padx=2, pady=2)
+        self.lblDose.grid(row=2, column=0, sticky=tkinter.W)
+        self.txtDose = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=Dose, width=25)
+        self.txtDose.grid(row=2, column=1)
+
+        self.lblDUseMachine = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Driving Machine:",
+        padx=2, pady=2)
+        self.lblDUseMachine.grid(row=2, column=2, sticky=tkinter.W)
+        self.txtDUseMachine = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=DrivingUsingMachines, width=25)
+        self.txtDUseMachine.grid(row=2, column=3)
+
+        self.lblNoOfTablets = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="No. of Tablets:",
+        padx=2, pady=2)
+        self.lblNoOfTablets.grid(row=3, column=0, sticky=tkinter.W)
+        self.txtNoOfTablets = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=NumberTablets, width=25)
+        self.txtNoOfTablets.grid(row=3, column=1)
+
+        self.lblUseMedication = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Medication:",
+        padx=2, pady=2)
+        self.lblUseMedication.grid(row=3, column=2, sticky=tkinter.W)
+        self.txtUseMedication = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=HowtoUseMedication, width=25)
+        self.txtUseMedication.grid(row=3, column=3)
+
+        self.lblLot = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Lot:",
+        padx=2, pady=2)
+        self.lblLot.grid(row=4, column=0, sticky=tkinter.W)
+        self.txtLot = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=Lot, width=25)
+        self.txtLot.grid(row=4, column=1)
+
+        self.lblPatientID = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Patient ID:",
+        padx=2, pady=2)
+        self.lblPatientID.grid(row=4, column=2, sticky=tkinter.W)
+        self.txtPatientID = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=PatientID, width=25)
+        self.txtPatientID.grid(row=4, column=3)
+
+        self.lblIssuedDate = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Issued Date:",
+        padx=2, pady=2)
+        self.lblIssuedDate.grid(row=5, column=0, sticky=tkinter.W)
+        self.txtIssuedDate = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=IssuedDate, width=25)
+        self.txtIssuedDate.grid(row=5, column=1)
+
+        self.lblNHSNumber = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="NHS Number:",
+        padx=2, pady=2)
+        self.lblNHSNumber.grid(row=5, column=2, sticky=tkinter.W)
+        self.txtNHSNumber = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=NHSNumber, width=25)
+        self.txtNHSNumber.grid(row=5, column=3)
+
+        self.lblExpDate = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Exp Date:",
+        padx=2, pady=2)
+        self.lblExpDate.grid(row=6, column=0, sticky=tkinter.W)
+        self.txtExpDate = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=ExpDate, width=25)
+        self.txtExpDate.grid(row=6, column=1)
+
+        self.lblPatientName = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Patient Name:",
+        padx=2, pady=2)
+        self.lblPatientName.grid(row=6, column=2, sticky=tkinter.W)
+        self.txtPatientName = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=PatientName, width=25)
+        self.txtPatientName.grid(row=6, column=3)
+
+        self.lblDailyDose = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Daily Dose:",
+        padx=2, pady=2)
+        self.lblDailyDose.grid(row=7, column=0, sticky=tkinter.W)
+        self.txtDailyDose = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=DailyDose, width=25)
+        self.txtDailyDose.grid(row=7, column=1)
+
+        self.lblDateofBirth = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Date of Birth:",
+        padx=2, pady=2)
+        self.lblDateofBirth.grid(row=7, column=2, sticky=tkinter.W)
+        self.txtDateofBirth = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=DateofBirth, width=25)
+        self.txtDateofBirth.grid(row=7, column=3)
+
+        self.lblSideEffect = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Side Effects:",
+        padx=2, pady=2)
+        self.lblSideEffect.grid(row=8, column=0, sticky=tkinter.W)
+        self.txtSideEffect = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=PossibleSideEffects, width=25)
+        self.txtSideEffect.grid(row=8, column=1)
+
+        self.lblPatientAddress = tkinter.Label(DataFrameLEFT, font = ('arial',12,'bold'), text="Patinet Address:",
+        padx=2, pady=2)
+        self.lblPatientAddress.grid(row=8, column=2, sticky=tkinter.W)
+        self.txtPatientAddress = tkinter.Entry(DataFrameLEFT, font = ('arial',12,'bold'), textvariable=PatientAddress, width=25)
+        self.txtPatientAddress.grid(row=8, column=3)
+        
+        # ==================================DataFrameRight==================================
+        self.txtPrescription = tkinter.Text(DataFrameRIGHT, font=('arial',12,'bold'), width=43, height=12, padx=2, pady=6)
+        self.txtPrescription.grid(row=0,column=0)
+
+        # ==================================ButtonFrame==================================
+        self.btnPrescription = tkinter.Button(ButtonFrame, text="Prescription", font=('arial',12,'bold'), width=24, bd=4,
+        command=iPrescription)
+        self.btnPrescription.grid(row=0,column=0)
+
+        self.btnPrescriptionData = tkinter.Button(ButtonFrame, text="Prescriaption Data", font=('arial',12,'bold'), width=24, bd=4,
+        command=iPrescriptionData)
+        self.btnPrescriptionData.grid(row=0,column=1)
+
+        self.btnDelete = tkinter.Button(ButtonFrame, text="Delete", font=('arial',12,'bold'), width=24, bd=4,
+        command=iDelete)
+        self.btnDelete.grid(row=0,column=2)
+
+        self.btnReset = tkinter.Button(ButtonFrame, text="Reset", font=('arial',12,'bold'), width=24, bd=4,
+        command=iReset)
+        self.btnReset.grid(row=0,column=3)
+
+        self.btnExit = tkinter.Button(ButtonFrame, text="Exit", font=('arial',12,'bold'), width=24, bd=4,
+        command=iExit)
+        self.btnExit.grid(row=0,column=4)
+
+
+        # ==================================FrameDetail==================================
+        self.lblLabel = tkinter.Label(FrameDetail, font=('arial',10,'bold'), pady=8,
+        text="Name of Tablets\tReferene No.\t Doseage\t No. of Tablets\t Lot\t Issued Date\t Exp.,Date\\tDaily Dose\tStorage Adv.\tNHS Number\t Patient Name\t DOB\t Address")
+        self.lblLabel.grid(row=0,column=0)
+
+        self.txtFrameDetail = tkinter.Text(FrameDetail, font=('arial',12,'bold'), width=141, height=4, padx=2, pady=4)
+        self.txtFrameDetail.grid(row=1, column=0)    
+            
+        #===============================================================================================
+
+if __name__ == '__main__':
+    main()
